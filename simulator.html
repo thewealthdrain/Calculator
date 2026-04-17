@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulator - The Wealth Drain</title>
+    <meta name="description" content="Your full retirement simulator. See your freedom number, passive income projections, fee impact, and year-by-year growth — no restrictions.">
+
+    <!-- Google tag (gtag.js) — REPLACE G-JMNSRK45B1 with your real GA4 ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JMNSRK45B1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-JMNSRK45B1', { 'send_page_view': true });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcfdfe;
+            color: #1e293b;
+            overflow-x: hidden;
+            padding: 5rem 1rem;
+        }
+        .container { max-width: 72rem; margin: 0 auto; }
+
+        /* Header */
+        header { text-align: center; margin-bottom: 4rem; }
+        header h1 { font-size: 3rem; font-weight: 900; color: #0f172a; letter-spacing: -0.025em; line-height: 1.1; }
+        header p { color: #94a3b8; margin-top: 1rem; font-size: 1.25rem; font-weight: 500; }
+
+        /* Info Banner */
+        .info-banner {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white; padding: 16px 24px; border-radius: 20px;
+            text-align: center; margin: 0 auto 2.5rem; max-width: 850px;
+            box-shadow: 0 10px 25px rgba(16,185,129,0.2);
+            font-size: 0.95rem;
+        }
+        .info-banner strong { font-weight: 800; }
+
+        /* Setup Card */
+        .setup-card {
+            background: #ffffff; border-radius: 2.5rem; border: 1px solid #f1f5f9;
+            padding: 3rem; max-width: 950px; margin: 0 auto;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.04);
+        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; text-align: left; }
+        .input-group { margin-bottom: 1.5rem; }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+        .label-style {
+            display: block; font-size: 11px; font-weight: 800; color: #6366f1;
+            text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 10px;
+        }
+        .label-sub { color: #cbd5e1; }
+        .input-box {
+            border: 2px solid #e2e8f0; border-radius: 16px; padding: 14px 18px;
+            width: 100%; background: #ffffff; outline: none; font-weight: 600;
+            font-size: 1rem; font-family: inherit; transition: all 0.2s;
+        }
+        .input-box:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
+        .helper-text { font-size: 10px; color: #94a3b8; margin-top: 4px; }
+
+        /* Buttons */
+        .btn-giant {
+            background-color: #6366f1; color: white; font-weight: 800; font-size: 1.1rem;
+            padding: 20px; border-radius: 22px; width: 100%; text-transform: uppercase;
+            letter-spacing: 0.1em; cursor: pointer; border: none; transition: all 0.3s ease;
+        }
+        .btn-giant:hover { background-color: #4f46e5; transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(99,102,241,0.3); }
+        .btn-bottom {
+            background-color: #ffffff; color: #6366f1; font-weight: 800; padding: 18px 32px;
+            border-radius: 20px; border: 2px solid #6366f1; text-transform: uppercase;
+            cursor: pointer; transition: all 0.2s ease; font-family: inherit; font-size: 1rem;
+        }
+        .btn-bottom:hover { background-color: #6366f1; color: white; }
+
+        /* Results */
+        .results-area { margin-top: 4rem; display: none; }
+        .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .result-card { padding: 3rem; border-radius: 2.5rem; text-align: center; }
+        .result-card .card-label {
+            display: block; font-size: 11px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.5rem;
+        }
+        .result-card .card-value { font-size: 3rem; font-weight: 900; margin-top: 0.5rem; }
+        .card-white { background: #fff; border: 1px solid #f1f5f9; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); color: #0f172a; }
+        .card-white .card-label { color: #94a3b8; }
+        .card-indigo { background: #6366f1; color: #fff; box-shadow: 0 25px 50px -12px rgba(99,102,241,0.25); }
+        .card-indigo .card-label { color: rgba(255,255,255,0.7); }
+        .card-emerald { background: #10b981; color: #fff; box-shadow: 0 20px 25px -5px rgba(16,185,129,0.25); }
+        .card-emerald .card-label { color: rgba(255,255,255,0.7); }
+        .card-dark { background: #0f172a; color: #fff; }
+        .card-dark .card-label { color: rgba(255,255,255,0.4); }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(145deg, #f5f7ff, #ffffff);
+            border: 1px solid #e0e7ff; border-radius: 1.875rem;
+            padding: 1.875rem; text-align: center;
+        }
+        .summary-box p { font-size: 1.15rem; font-weight: 600; color: #475569; line-height: 1.625; }
+        .highlight { color: #6366f1; font-weight: 800; }
+
+        /* Chart */
+        .chart-section { position: relative; height: 500px; border-radius: 2.5rem; background: #fff; margin-top: 1.25rem; }
+        .chart-inner { height: 100%; width: 100%; padding: 1rem; }
+
+        /* Table */
+        .table-container {
+            background: #fff; border-radius: 2.5rem; border: 1px solid #f1f5f9;
+            overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-top: 3rem;
+        }
+        .table-header { padding: 2rem; border-bottom: 1px solid #f8fafc; }
+        .table-header h3 { font-size: 1.25rem; font-weight: 800; color: #0f172a; }
+        .results-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .results-table thead { background: #f8fafc; }
+        .results-table th, .results-table td { padding: 16px 12px; border-bottom: 1px solid #f8fafc; }
+        .results-table th { font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.15em; }
+        .results-table td { font-size: 0.95rem; }
+
+        /* Fade in */
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Footer */
+        .site-footer { color: #475569; padding: 30px 20px 20px; margin-top: 60px; border-top: 1px solid #e2e8f0; }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 20px; }
+        .footer-section h3 { color: #1e293b; font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 6px; }
+        .footer-section a { color: #64748b; text-decoration: none; transition: color 0.2s; font-size: 0.9rem; }
+        .footer-section a:hover { color: #6366f1; }
+        .footer-bottom { border-top: 1px solid #e2e8f0; padding-top: 15px; text-align: center; color: #94a3b8; font-size: 0.85rem; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            body { padding: 2rem 1rem; }
+            header h1 { font-size: 2.25rem; }
+            .form-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .results-grid { grid-template-columns: 1fr; }
+            .setup-card { padding: 2rem 1.5rem; border-radius: 1.75rem; }
+            .result-card .card-value { font-size: 2.25rem; }
+            .chart-section { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Simulator</h1>
+            <p>Engineer your exit from the 9-to-5.</p>
+        </header>
+
+        <!-- Green banner — reward for opting in -->
+        <div class="info-banner">
+            <span style="font-size:1.3rem;margin-right:8px;vertical-align:middle;">&#10003;</span>
+            <strong>No Email Required!</strong> This page is fully accessible. Start your projections now and explore your retirement path without any restrictions.
+        </div>
+
+        <section class="setup-card">
+            <div class="form-grid">
+                <div>
+                    <h3 class="label-style" style="margin-bottom:1.5rem;">Step 1: Your Timeline</h3>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label-style label-sub">Current Age</label>
+                            <input type="number" id="currentAge" class="input-box" value="30">
+                        </div>
+                        <div class="input-group">
+                            <label class="label-style label-sub">Duration (Years)</label>
+                            <input type="number" id="duration" class="input-box" value="20">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label-style label-sub">Return (%)</label>
+                            <input type="number" id="returnRate" class="input-box" value="8">
+                        </div>
+                        <div class="input-group">
+                            <label class="label-style label-sub">Inflation (%)</label>
+                            <input type="number" id="inflationRate" class="input-box" value="3">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="label-style" style="margin-bottom:1.5rem;">Step 2: Strategy</h3>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label-style label-sub">Initial Capital ($)</label>
+                            <input type="number" id="initialCapital" class="input-box" value="50000">
+                        </div>
+                        <div class="input-group">
+                            <label class="label-style label-sub">Annual Addition ($)</label>
+                            <input type="number" id="annualAddition" class="input-box" value="15000">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label class="label-style label-sub">Annual Fees (%)</label>
+                        <input type="number" id="annualFees" class="input-box" value="0.5" step="0.1" min="0" max="5">
+                        <p class="helper-text">Typical: 0.03% (index funds) — 1% (actively managed)</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="ignite()" class="btn-giant">Generate My Retirement Path</button>
+        </section>
+
+        <!-- Full results — no blur, no gate -->
+        <div id="resultsSection" class="results-area fade-in">
+            <div class="summary-box">
+                <p id="dynamicSummary"></p>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-inner"><canvas id="projectionChart"></canvas></div>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card card-white">
+                    <span class="card-label">Final Net Worth</span>
+                    <div class="card-value" id="resTotal">$0</div>
+                </div>
+                <div class="result-card card-indigo">
+                    <span class="card-label">Compound Interest Gift</span>
+                    <div class="card-value" id="resInterest">$0</div>
+                </div>
+            </div>
+            <div class="results-grid">
+                <div class="result-card card-emerald">
+                    <span class="card-label">Monthly Freedom Income</span>
+                    <div class="card-value" id="resMonthly">$0</div>
+                </div>
+                <div class="result-card card-dark">
+                    <span class="card-label">Yearly Passive Cashflow</span>
+                    <div class="card-value" id="resYearly">$0</div>
+                </div>
+            </div>
+
+            <!-- Year-by-year growth table -->
+            <div class="table-container">
+                <div class="table-header"><h3>Annual Growth Tracker</h3></div>
+                <div style="overflow-x:auto;">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left;">Year (Age)</th>
+                                <th style="text-align:center;">Yearly Interest</th>
+                                <th style="text-align:center;">Monthly Interest</th>
+                                <th style="text-align:right;">Total Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="text-align:center;padding:2.5rem 0 5rem;">
+                <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="btn-bottom">Re-Simulate</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h3>Tools</h3>
+                        <ul>
+                            <li><a href="index.html">Retirement Calculator</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Legal</h3>
+                        <ul>
+                            <li><a href="terms.html">Terms of Service</a></li>
+                            <li><a href="privacy.html">Privacy Policy</a></li>
+                            <li><a href="disclaimer.html">Disclaimer</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Contact</h3>
+                        <ul>
+                            <li><a href="mailto:hello@thewealthdrain.com">hello@thewealthdrain.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 The Wealth Drain. All rights reserved.</p>
+                    <p style="margin-top:10px;font-size:0.85rem;">This tool is for educational purposes only and does not constitute financial advice.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let myChart;
+        const fmt = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 });
+
+        window.onload = function() {
+            const ctx = document.getElementById('projectionChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'Initial Balance', data: [], backgroundColor: '#f1f5f9', fill: true, pointRadius: 0, stack: '1' },
+                        { label: 'Deposits', data: [], backgroundColor: '#cbd5e1', fill: true, pointRadius: 0, stack: '1' },
+                        { label: 'Fees Lost', data: [], backgroundColor: '#991b1b', fill: true, pointRadius: 0, stack: '1' },
+                        { label: 'Net Interest', data: [], backgroundColor: '#6366f1', fill: true, pointRadius: 0, stack: '1' },
+                        { label: 'Without Fees', data: [], borderColor: '#10b981', borderWidth: 2, borderDash: [6,4], fill: false, pointRadius: 0, stack: false }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: true, position: 'bottom' } },
+                    scales: {
+                        x: { display: true, stacked: true, grid: { display: false } },
+                        y: { display: true, stacked: true, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'k' } }
+                    }
+                }
+            });
+        };
+
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            let startTs = null;
+            const step = (ts) => {
+                if (!startTs) startTs = ts;
+                const progress = Math.min((ts - startTs) / duration, 1);
+                obj.innerText = fmt.format(Math.floor(progress * (end - start) + start));
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        function ignite() {
+            // Confetti burst
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#6366f1','#a855f7','#10b981'] });
+
+            // GA4
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'run_simulation', { event_category: 'engagement', event_label: 'Run Simulation' });
+            }
+
+            calculateMagic();
+        }
+
+        function calculateMagic() {
+            document.getElementById('resultsSection').style.display = 'block';
+
+            const startAge = parseInt(document.getElementById('currentAge').value);
+            const duration = parseInt(document.getElementById('duration').value);
+            const rate = parseFloat(document.getElementById('returnRate').value) / 100;
+            const initial = parseFloat(document.getElementById('initialCapital').value);
+            const addition = parseFloat(document.getElementById('annualAddition').value);
+            const fees = parseFloat(document.getElementById('annualFees').value) / 100;
+            const currentYear = new Date().getFullYear();
+
+            let balance = initial;
+            let balanceNoFees = initial;
+            let principal = initial;
+            let totalFeesPaid = 0;
+
+            let labels = [], dataInit = [], dataDep = [], dataInt = [], dataFees = [], dataNoFees = [];
+            let tableHTML = "";
+
+            for (let i = 0; i <= duration; i++) {
+                const year = currentYear + i;
+                const age = startAge + i;
+                labels.push(year);
+
+                let yearlyInterest = 0, yearlyFees = 0;
+                if (i > 0) {
+                    yearlyInterest = balance - (balance / (1 + rate));
+                    yearlyFees = balance * fees;
+                    totalFeesPaid += yearlyFees;
+                }
+                let monthlyInterest = yearlyInterest / 12;
+
+                dataInit.push(initial);
+                dataDep.push(principal - initial);
+                dataFees.push(totalFeesPaid);
+                dataInt.push(Math.max(0, balance - principal));
+                dataNoFees.push(balanceNoFees);
+
+                const feesDisplay = yearlyFees > 0
+                    ? ` <span style="color:#ef4444;font-size:0.85rem;">(-${fmt.format(yearlyFees)} fees)</span>` : '';
+
+                tableHTML += `<tr>
+                    <td style="text-align:left;font-weight:700;color:#0f172a;">${year} <span style="color:#94a3b8;font-weight:500;margin-left:4px;">(${age})</span></td>
+                    <td style="text-align:center;color:#10b981;font-weight:700;">+${fmt.format(yearlyInterest)}${feesDisplay}</td>
+                    <td style="text-align:center;color:#818cf8;font-weight:500;">${fmt.format(monthlyInterest)}/mo</td>
+                    <td style="text-align:right;font-weight:900;color:#0f172a;">${fmt.format(balance)}</td>
+                </tr>`;
+
+                if (i < duration) {
+                    balance = (balance + addition) * (1 + rate) * (1 - fees);
+                    balanceNoFees = (balanceNoFees + addition) * (1 + rate);
+                    principal += addition;
+                }
+            }
+
+            const lostToFees = balanceNoFees - balance;
+            const totalInterest = balance - principal;
+            const annualIncome = balance * 0.04;
+            const monthlyIncome = annualIncome / 12;
+            const interestPct = Math.round((totalInterest / balance) * 100);
+
+            animateValue("resTotal", 0, balance, 1500);
+            animateValue("resInterest", 0, totalInterest, 1500);
+            animateValue("resMonthly", 0, monthlyIncome, 1500);
+            animateValue("resYearly", 0, annualIncome, 1500);
+
+            document.getElementById('tableBody').innerHTML = tableHTML;
+
+            // Build summary
+            let summary = `In <span class="highlight">${duration} years</span>, you will reach <span class="highlight">${fmt.format(balance)}</span>. `;
+            summary += `This portfolio will generate <span class="highlight">${fmt.format(monthlyIncome)}/mo</span> in passive income. `;
+            summary += `The market will have gifted you <span class="highlight">${fmt.format(totalInterest)}</span> (${interestPct}% of your wealth)`;
+
+            if (lostToFees > 0) {
+                const feesPctLost = Math.round((lostToFees / balanceNoFees) * 100);
+                summary += `. <span style="color:#dc2626;font-weight:700;">&#9888;&#65039; Fees cost you ${fmt.format(lostToFees)}</span> — without them you'd have <span style="color:#059669;font-weight:700;">${fmt.format(balanceNoFees)}</span> (${feesPctLost}% lost to fees!)`;
+            }
+            summary += '.';
+            document.getElementById('dynamicSummary').innerHTML = summary;
+
+            // Update chart
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = dataInit;
+            myChart.data.datasets[1].data = dataDep;
+            myChart.data.datasets[2].data = dataFees;
+            myChart.data.datasets[3].data = dataInt;
+            myChart.data.datasets[4].data = dataNoFees;
+            myChart.options.interaction = { mode: 'index', intersect: false, axis: 'x' };
+            myChart.options.plugins.tooltip = {
+                enabled: true, padding: 15, backgroundColor: '#1e293b',
+                callbacks: {
+                    title: (items) => `Age ${startAge + items[0].dataIndex}`,
+                    label: (ctx) => ` ${ctx.dataset.label}: ${fmt.format(ctx.raw)}`,
+                    footer: (items) => {
+                        const net = items[0].raw + items[1].raw + items[3].raw;
+                        return ' NET BALANCE: ' + fmt.format(net);
+                    }
+                }
+            };
+            myChart.update();
+        }
+    </script>
+</body>
+</html>
