@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Toolkit - The Wealth Drain</title>
+    <meta name="description" content="The only retirement spreadsheet you'll ever need. See your fees, project your future, and plan your Social Security â all in one Excel toolkit.">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JMNSRK45B1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-JMNSRK45B1', { 'send_page_view': true });
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f1a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* âââ NAV âââ */
+        nav {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-weight: 900; font-size: 1.15rem; color: #fff; text-decoration: none; letter-spacing: -0.02em; }
+        .nav-brand span { color: #22c55e; }
+        .nav-link { color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-link:hover { color: #fff; }
+
+        /* âââ HERO âââ */
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.25);
+            color: #22c55e;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.75rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+        .hero h1 .accent { color: #22c55e; }
+        .hero p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            font-weight: 500;
+        }
+        .hero-cta {
+            display: inline-block;
+            background: #22c55e;
+            color: #0b0f1a;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 1rem 2.5rem;
+            border-radius: 14px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: all 0.3s ease;
+        }
+        .hero-cta:hover { background: #16a34a; transform: translateY(-2px); box-shadow: 0 20px 40px rgba(34,197,94,0.2); }
+
+        /* âââ SOCIAL PROOF âââ */
+        .social-proof {
+            padding: 2rem 0 4rem;
+            text-align: center;
+        }
+        .proof-row {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .proof-item { color: #64748b; font-size: 0.85rem; font-weight: 600; }
+        .proof-item strong { color: #cbd5e1; font-size: 1.5rem; display: block; margin-bottom: 0.25rem; font-weight: 900; }
+
+        /* âââ PROBLEM âââ */
+        .problem-section {
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .problem-section h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .problem-section .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin: 0 auto 3rem;
+        }
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .pain-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .pain-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+        .pain-card h3 { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .pain-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.65; }
+
+        /* âââ WHAT'S INSIDE âââ */
+        .features-section {
+            padding: 5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .features-section h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .feature-icon {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .feature-text h4 { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 0.25rem; }
+        .feature-text p { font-size: 0.88rem; color: #94a3b8; line-height: 1.6; }
+        .feature-text .complete-only {
+            display: inline-block;
+            background: rgba(234,179,8,0.12);
+            color: #eab308;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* âââ PRICING âââ */
+        .pricing-section {
+            padding: 5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .pricing-section h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+        .pricing-section .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.05rem;
+            margin-bottom: 3rem;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .price-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .price-card:hover { transform: translateY(-4px); }
+        .price-card.featured {
+            border-color: #22c55e;
+            background: rgba(34,197,94,0.04);
+            box-shadow: 0 0 80px rgba(34,197,94,0.08);
+        }
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: #0b0f1a;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 0.35rem 1.25rem;
+            border-radius: 100px;
+        }
+        .price-card .tier-name {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #64748b;
+            margin-bottom: 0.75rem;
+        }
+        .price-card.featured .tier-name { color: #22c55e; }
+        .price-card .price {
+            font-size: 3.25rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .price-card .price-note { font-size: 0.8rem; color: #64748b; margin-bottom: 2rem; }
+        .price-card ul { list-style: none; margin-bottom: 2rem; }
+        .price-card li {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .price-card li .check { color: #22c55e; font-weight: 800; flex-shrink: 0; }
+        .price-card li .x-mark { color: #475569; flex-shrink: 0; }
+        .price-card li.disabled { color: #475569; }
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .buy-btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .buy-btn-outline:hover { border-color: #22c55e; color: #22c55e; }
+        .buy-btn-primary {
+            background: #22c55e;
+            color: #0b0f1a;
+        }
+        .buy-btn-primary:hover { background: #16a34a; transform: translateY(-2px); box-shadow: 0 15px 30px rgba(34,197,94,0.2); }
+
+        /* âââ COMPARISON TABLE âââ */
+        .comparison-section {
+            padding: 4rem 0 5rem;
+        }
+        .comparison-section h2 {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.02em;
+        }
+        .comp-table {
+            width: 100%;
+            max-width: 750px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        .comp-table th, .comp-table td {
+            padding: 0.85rem 1.25rem;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+        .comp-table th {
+            color: #94a3b8;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .comp-table th:first-child, .comp-table td:first-child { text-align: left; }
+        .comp-table td { border-bottom: 1px solid rgba(255,255,255,0.04); color: #cbd5e1; }
+        .comp-table .check-cell { color: #22c55e; font-weight: 800; }
+        .comp-table .x-cell { color: #334155; }
+
+        /* âââ FAQ âââ */
+        .faq-section {
+            padding: 4rem 0 5rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .faq-section h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.02em;
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        .faq-item h4 { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .faq-item p { font-size: 0.85rem; color: #94a3b8; line-height: 1.65; }
+
+        /* âââ FINAL CTA âââ */
+        .final-cta {
+            padding: 5rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .final-cta h2 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .final-cta p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+        /* âââ FOOTER âââ */
+        footer {
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            text-align: center;
+            color: #475569;
+            font-size: 0.8rem;
+        }
+        footer a { color: #64748b; text-decoration: none; }
+        footer a:hover { color: #94a3b8; }
+
+        /* âââ RESPONSIVE âââ */
+        @media (max-width: 768px) {
+            .hero { padding: 4rem 0 2.5rem; }
+            .feature-list, .pricing-grid, .faq-grid { grid-template-columns: 1fr; }
+            .proof-row { gap: 2rem; }
+            .pain-grid { grid-template-columns: 1fr; }
+            .comp-table { font-size: 0.8rem; }
+            .comp-table th, .comp-table td { padding: 0.65rem 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="container">
+        <a href="/" class="nav-brand">THE WEALTH <span>DRAIN</span></a>
+        <a href="#pricing" class="nav-link">Get the Toolkit</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">Updated for 2026 Tax Year</div>
+        <h1>Stop guessing.<br>Start <span class="accent">running the numbers.</span></h1>
+        <p>The retirement spreadsheet that shows you exactly where your money goes â fees, taxes, Social Security, and all.</p>
+        <a href="#pricing" class="hero-cta">See Pricing</a>
+    </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof">
+    <div class="container">
+        <div class="proof-row">
+            <div class="proof-item"><strong>2026</strong>Tax brackets pre-loaded</div>
+            <div class="proof-item"><strong>6</strong>Tools in one workbook</div>
+            <div class="proof-item"><strong>100%</strong>Yours â no subscriptions</div>
+        </div>
+    </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section">
+    <div class="container">
+        <h2>Most people have no idea what fees are costing them.</h2>
+        <p class="subtitle">You're saving. You're investing. But three things are silently draining your portfolio â and nobody's showing you the math.</p>
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="icon">ð¸</div>
+                <h3>Hidden fund fees</h3>
+                <p>A 1% expense ratio can quietly eat six figures from your portfolio over 30 years. Most people never calculate this.</p>
+            </div>
+            <div class="pain-card">
+                <div class="icon">ð</div>
+                <h3>No year-by-year projection</h3>
+                <p>Online calculators give you one number. They don't show you what happens each year â contributions, growth, fees, withdrawals, taxes.</p>
+            </div>
+            <div class="pain-card">
+                <div class="icon">ð¤·</div>
+                <h3>Social Security confusion</h3>
+                <p>Claim at 62? 67? 70? The difference can be hundreds of thousands of dollars. But nobody models it for you.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="features-section">
+    <div class="container">
+        <h2>What's inside the toolkit</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <div class="feature-icon">ð</div>
+                <div class="feature-text">
+                    <h4>Reference Data Hub</h4>
+                    <p>Enter your info once â age, income, filing status, state. It feeds every other tab automatically. 2026 federal brackets pre-loaded.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">ð¯</div>
+                <div class="feature-text">
+                    <h4>Retirement Readiness Scorecard</h4>
+                    <p>Your savings rate grade, projected retirement balance, and a clear score so you know exactly where you stand today.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">ð°</div>
+                <div class="feature-text">
+                    <h4>Fee Drain Analyzer</h4>
+                    <p>Compare up to 4 funds side by side. See exactly how much expense ratios eat from your portfolio over 10, 20, and 30 years.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">ð</div>
+                <div class="feature-text">
+                    <h4>Roth Conversion Planner <span class="complete-only">Complete Only</span></h4>
+                    <p>Model the tax impact of converting Traditional IRA/401k funds to Roth. See if converting now saves you more later.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">ðï¸</div>
+                <div class="feature-text">
+                    <h4>Social Security Optimizer <span class="complete-only">Complete Only</span></h4>
+                    <p>Compare claiming at 62, 67, and 70. Find your exact break-even age so you can decide when to start collecting.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">ð</div>
+                <div class="feature-text">
+                    <h4>Full Retirement Projection <span class="complete-only">Complete Only</span></h4>
+                    <p>Year-by-year timeline from now through retirement â contributions, employer match, growth, fees, withdrawals, and taxes. The full picture.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+    <div class="container">
+        <h2>Pick your toolkit</h2>
+        <p class="subtitle">One-time purchase. No subscriptions. Works in Excel and Google Sheets.</p>
+        <div class="pricing-grid">
+
+            <!-- ESSENTIALS -->
+            <div class="price-card">
+                <div class="tier-name">Essentials</div>
+                <div class="price">$10</div>
+                <div class="price-note">One-time payment</div>
+                <ul>
+                    <li><span class="check">â</span> Reference Data Hub</li>
+                    <li><span class="check">â</span> Readiness Scorecard</li>
+                    <li><span class="check">â</span> Fee Drain Analyzer</li>
+                    <li class="disabled"><span class="x-mark">â</span> Roth Conversion Planner</li>
+                    <li class="disabled"><span class="x-mark">â</span> Social Security Optimizer</li>
+                    <li class="disabled"><span class="x-mark">â</span> Full Retirement Projection</li>
+                </ul>
+                <!-- REPLACE with your MailerLite digital product checkout link -->
+                <a href="#" class="buy-btn buy-btn-outline" id="buy-essentials">Get Essentials</a>
+            </div>
+
+            <!-- COMPLETE -->
+            <div class="price-card featured">
+                <div class="popular-badge">Most Popular</div>
+                <div class="tier-name">Complete</div>
+                <div class="price">$25</div>
+                <div class="price-note">One-time payment</div>
+                <ul>
+                    <li><span class="check">â</span> Reference Data Hub</li>
+                    <li><span class="check">â</span> Readiness Scorecard</li>
+                    <li><span class="check">â</span> Fee Drain Analyzer</li>
+                    <li><span class="check">â</span> Roth Conversion Planner</li>
+                    <li><span class="check">â</span> Social Security Optimizer</li>
+                    <li><span class="check">â</span> Full Retirement Projection</li>
+                </ul>
+                <!-- REPLACE with your MailerLite digital product checkout link -->
+                <a href="#" class="buy-btn buy-btn-primary" id="buy-complete">Get Complete Toolkit</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="comparison-section">
+    <div class="container">
+        <h2>Side-by-side comparison</h2>
+        <table class="comp-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Essentials â $10</th>
+                    <th>Complete â $25</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Reference Data Hub</td><td class="check-cell">â</td><td class="check-cell">â</td></tr>
+                <tr><td>Readiness Scorecard</td><td class="check-cell">â</td><td class="check-cell">â</td></tr>
+                <tr><td>Fee Drain Analyzer (4 funds)</td><td class="check-cell">â</td><td class="check-cell">â</td></tr>
+                <tr><td>Roth Conversion Planner</td><td class="x-cell">â</td><td class="check-cell">â</td></tr>
+                <tr><td>Social Security Optimizer</td><td class="x-cell">â</td><td class="check-cell">â</td></tr>
+                <tr><td>Full Retirement Projection</td><td class="x-cell">â</td><td class="check-cell">â</td></tr>
+                <tr><td>2026 tax brackets pre-loaded</td><td class="check-cell">â</td><td class="check-cell">â</td></tr>
+                <tr><td>Year-by-year timeline</td><td class="x-cell">â</td><td class="check-cell">â</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+    <div class="container">
+        <h2>Questions</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h4>What software do I need?</h4>
+                <p>Microsoft Excel or Google Sheets. The toolkit is an .xlsx file that works in both. All formulas are standard â no macros or plugins required.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Is this a one-time purchase?</h4>
+                <p>Yes. Pay once, download immediately. No subscriptions, no recurring charges. You own the file forever.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I upgrade from Essentials to Complete?</h4>
+                <p>Absolutely. If you start with Essentials and want the full toolkit later, just purchase the Complete version separately.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Will this work for my state?</h4>
+                <p>The toolkit uses 2026 federal tax brackets. You select your state on the Reference Data tab â states with no income tax are supported, and you can adjust for your state's rates.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I get the file after purchase?</h4>
+                <p>You'll receive an email with a download link immediately after checkout. The file is ready to use â no setup required.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Is this financial advice?</h4>
+                <p>No. This is an educational tool for running your own numbers. It does not constitute financial, tax, or investment advice. Consult a professional for personalized guidance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+    <div class="container">
+        <h2>Your retirement math, handled.</h2>
+        <p>Stop guessing. Plug in your numbers and see exactly where you stand.</p>
+        <a href="#pricing" class="hero-cta">Get the Toolkit</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <p>&copy; 2026 The Wealth Drain &nbsp;Â·&nbsp; <a href="/">Home</a> &nbsp;Â·&nbsp; <a href="/simulator.html">Simulator</a></p>
+    </div>
+</footer>
+
+</body>
+</html>
