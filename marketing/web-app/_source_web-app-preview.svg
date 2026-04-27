@@ -1,0 +1,57 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>The Wealth Drain — Web Budget App</title>
+  <rect width="1200" height="800" fill="#0a1628" rx="10"/>
+
+  <!-- Browser chrome -->
+  <rect width="1200" height="44" fill="#091224" rx="10"/>
+  <rect y="32" width="1200" height="14" fill="#091224"/>
+  <circle cx="22" cy="22" r="6" fill="#dc2626"/>
+  <circle cx="44" cy="22" r="6" fill="#fbbf24"/>
+  <circle cx="66" cy="22" r="6" fill="#22c55e"/>
+  <rect x="100" y="12" width="500" height="20" fill="#1e293b" rx="4"/>
+  <text x="120" y="27" fill="#94a3b8" font-family="Arial, sans-serif" font-size="12">app.thewealthdrainplug.com/dashboard</text>
+
+  <!-- Header -->
+  <text x="40" y="90" fill="#fbbf24" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">THE WEALTH DRAIN</text>
+  <text x="320" y="90" fill="#94a3b8" font-family="Arial, sans-serif" font-size="13">Budget Dashboard</text>
+  <rect x="1000" y="68" width="160" height="32" fill="#1e293b" stroke="#fbbf24" rx="6"/>
+  <text x="1080" y="88" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">April 2026  ▾</text>
+
+  <!-- Hero KPIs -->
+  <g font-family="Arial, sans-serif">
+  <rect x="40" y="120" width="270" height="116" fill="#0f1f3d" rx="10"/>
+  <text x="60" y="148" fill="#94a3b8" font-size="11" letter-spacing="1.5">INCOME</text>
+  <text x="60" y="188" fill="#ffffff" font-size="32" font-weight="700">$5,200</text>
+  <text x="60" y="212" fill="#22c55e" font-size="12">▲ 4% vs March</text>
+
+  <rect x="320" y="120" width="270" height="116" fill="#0f1f3d" rx="10"/>
+  <text x="340" y="148" fill="#94a3b8" font-size="11" letter-spacing="1.5">EXPENSES</text>
+  <text x="340" y="188" fill="#ffffff" font-size="32" font-weight="700">$3,847</text>
+  <text x="340" y="212" fill="#22c55e" font-size="12">▼ 2% vs March</text>
+
+  <rect x="600" y="120" width="270" height="116" fill="#0f1f3d" stroke="#fbbf24" stroke-width="1" rx="10"/>
+  <text x="620" y="148" fill="#fbbf24" font-size="11" letter-spacing="1.5">NET SAVINGS</text>
+  <text x="620" y="188" fill="#fbbf24" font-size="32" font-weight="700">$1,353</text>
+  <text x="620" y="212" fill="#22c55e" font-size="12">▲ 18% vs March</text>
+
+  <rect x="880" y="120" width="280" height="116" fill="#0f1f3d" rx="10"/>
+  <text x="900" y="148" fill="#94a3b8" font-size="11" letter-spacing="1.5">DRAIN SCORE</text>
+  <text x="900" y="188" fill="#ffffff" font-size="32" font-weight="700">78</text>
+  <text x="965" y="186" fill="#94a3b8" font-size="14">/ 100</text>
+  <rect x="900" y="200" width="240" height="6" fill="#1e293b" rx="3"/>
+  <rect x="900" y="200" width="187" height="6" fill="#fbbf24" rx="3"/>
+  </g>
+
+  <!-- "COMING SOON" overlay -->
+  <rect x="200" y="320" width="800" height="280" fill="#0a1628" stroke="#fbbf24" stroke-width="2" rx="14"/>
+  <text x="600" y="380" fill="#fbbf24" font-family="Arial, sans-serif" font-size="42" font-weight="700" text-anchor="middle" letter-spacing="2">COMING SOON</text>
+  <text x="600" y="430" fill="#ffffff" font-family="Arial, sans-serif" font-size="20" text-anchor="middle">The Wealth Drain Web App</text>
+  <text x="600" y="460" fill="#94a3b8" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Everything in the Excel toolkit + automation, AI insights, mobile access.</text>
+  <text x="600" y="486" fill="#94a3b8" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Currently in private beta. Be among the first to know when it launches.</text>
+
+  <!-- CTA -->
+  <rect x="475" y="520" width="250" height="50" fill="#fbbf24" rx="10"/>
+  <text x="600" y="551" fill="#0a1628" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle" letter-spacing="2">JOIN THE WAITLIST</text>
+
+  <text x="600" y="765" fill="#94a3b8" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">Get notified the moment we open up access. No spam.</text>
+</svg>
